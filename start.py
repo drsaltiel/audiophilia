@@ -2,7 +2,7 @@ import os.path
 from subprocess import call
 from scipy.io.wavfile import read
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 class Analyzer(object):
 
@@ -53,3 +53,11 @@ class Analyzer(object):
     def _plot(self, data):
         plt.plot(range(len(data)), data)
         plt.show()
+
+    @property
+    def fft_rdata(self):
+        return np.fft.fft(self.rdata)
+
+    @property
+    def fft_ldata(self):
+        return np.fft.fft(self.ldata)
