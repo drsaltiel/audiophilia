@@ -61,3 +61,9 @@ class Analyzer(object):
     @property
     def fft_ldata(self):
         return np.fft.fft(self.ldata)
+
+    def plot_fftr(self):
+        self._plot(np.fft.fftshift(self.fft_rdata))
+
+    def plot_fftl(self):
+        self._plot(np.fft.fftshift(self.fft_ldata))
