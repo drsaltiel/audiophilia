@@ -1,3 +1,5 @@
+import os.path
+from subprocess import call
 from scipy.io.wavfile import read
 import matplotlib.pyplot as plt
 
@@ -5,9 +7,20 @@ import matplotlib.pyplot as plt
 class Analyzer(object):
 
     def __init__(self, filename):
-        self.filename = filename
+        if filename[-4:] == '.wav':
+            newfilename = filename
+            self.filename = filename
+        elif filename[-4:] == '.mp3':
+            newfilename = filename[:-4]+'.wav'
+            if os.path.isfile(newfilename):
+                self.filename = newfilename
+            else:
+                call(['avconv','-i', filename, newfilename])
+                self.filename = newfilename
+        else:
+            raise ValueError('Unrecognized filetype')
         self._samplerate = self._data = None
-        self._samplerate, data = read(filename)
+        self._samplerate, data = read(newfilename)
         self.set_data(data)
 
     @property
