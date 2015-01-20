@@ -4,6 +4,7 @@ from scipy.io.wavfile import read
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 class Analyzer(object):
 
     def __init__(self, filename):
