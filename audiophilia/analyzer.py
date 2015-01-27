@@ -1,53 +1,14 @@
-# import os.path
-from subprocess import Popen, PIPE, STDOUT, CalledProcessError
-# from subprocess import CalledProcessError
-# from StringIO import StringIO
-import tempfile
-
-import magic
-from scipy.io.wavfile import read
 import matplotlib.pyplot as plt
 import numpy as np
+
+from .reader import read_maybe_convert
 
 
 class Analyzer(object):
 
-    def __init__(self, filename):
-        fileinfo = magic.from_file(filename)
-        if 'WAVE audio' in fileinfo:
-            wav = open(filename)
-        # elif 'MPEG ADTS, layer III' in fileinfo:
-        else:
-            wav = tempfile.NamedTemporaryFile()
-            print wav.name
-            # output = StringIO()
-            try:
-                p = Popen(
-                    ['avconv', '-y', '-i', filename, '-f', 'wav', wav.name],
-                    stdout=PIPE,
-                    stderr=STDOUT)
-                output, _ = p.communicate()
-            except CalledProcessError:
-                wav.close()
-                print output
-                raise ValueError('Error converting encoding to wav.')
-
-        # if filename[-4:] == '.wav':
-        #     newfilename = filename
-        #     self.filename = filename
-        # elif filename[-4:] == '.mp3':
-        #     newfilename = filename[:-4]+'.wav'
-        #     if os.path.isfile(newfilename):
-        #         self.filename = newfilename
-        #     else:
-        #         call(['avconv','-i', filename, newfilename])
-        #         self.filename = newfilename
-        # else:
-        #     raise ValueError('Unrecognized filetype.')
-        # self._samplerate = self._data = None
-        self._samplerate, data = read(wav)
+    def __init__(self, filepath):
+        self._samplerate, data = read_maybe_convert(filepath)
         self.set_data(data)
-        wav.close()
 
     @property
     def samplerate(self):
