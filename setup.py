@@ -10,10 +10,10 @@ def read(fname):
 setup(
     name = 'audiophilia',
     version = "0.0.1",
-    author = 'Daniel Saltiel, Shomik Chakravarty',
+    author = ['Daniel Saltiel', 'Shomik Chakravarty'],
     description='Audio analyzer',
     url='https://github.com/drsaltiel/audiophilia',
-    packages=['reader','analyzer'],
+    packages=['audiophilia'],
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 1 - Planning",
